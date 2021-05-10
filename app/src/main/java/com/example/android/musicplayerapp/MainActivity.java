@@ -23,24 +23,28 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //create mediaplayer object
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.mitwa);
+        //create mp object
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.mitwa);
 
+        //Applying Async Callback to mp
+        mp.setOnCompletionListener(mediaPlayer -> {
+            Toast.makeText(this, "I'm done!", Toast.LENGTH_SHORT).show();
+        });
 
          // Button for playing audio files
         Button play = (Button)findViewById(R.id.play);
 
         //Set the click listener on play button
-        play.setOnClickListener(view -> mediaPlayer.start());
+        play.setOnClickListener(view -> mp.start());
 
         //Button for pausing audio files
         Button pause = (Button)findViewById(R.id.pause);
 
         //Set the click listener on pause button
-        pause.setOnClickListener(view -> mediaPlayer.pause());
+        pause.setOnClickListener(view -> mp.pause());
 
-        startTime = mediaPlayer.getCurrentPosition();
-        finalTime = mediaPlayer.getDuration();
+        startTime = mp.getCurrentPosition();
+        finalTime = mp.getDuration();
 
 
          // Button for increasing the song by 5 seconds
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             if((temp + forwardTime) <= finalTime){
                 startTime += forwardTime;
-                mediaPlayer.seekTo(startTime);
+                mp.seekTo(startTime);
                 Toast.makeText(getApplicationContext(), "You've jumped 5 seconds forward.", Toast.LENGTH_SHORT).show();
             }
             else{
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
             if((temp - backwardTime) > 0){
                 startTime -= backwardTime;
-                mediaPlayer.seekTo(startTime);
+                mp.seekTo(startTime);
                 Toast.makeText(getApplicationContext(), "You've jumped 5 seconds backward.", Toast.LENGTH_SHORT).show();
             }
             else{
